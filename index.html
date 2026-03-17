@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Danillo Bragança — Educação, Tecnologia & Pesquisa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f1117;
+    --paper: #f5f2eb;
+    --accent: #1a3a5c;
+    --gold: #b8935a;
+    --mid: #6b6b6b;
+    --rule: #d4cfc4;
+    --white: #ffffff;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.2rem 4rem;
+    background: rgba(245,242,235,0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav-name {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    letter-spacing: 0.02em;
+    color: var(--accent);
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mid);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 5rem;
+  }
+  .hero-left {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 6rem 5rem 6rem 4rem;
+    border-right: 1px solid var(--rule);
+  }
+  .hero-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.2s forwards;
+  }
+  .hero-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    font-weight: 900;
+    line-height: 1.05;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.35s forwards;
+  }
+  .hero-sub {
+    font-size: 1.05rem;
+    color: var(--mid);
+    max-width: 420px;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.5s forwards;
+  }
+  .hero-cta {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.65s forwards;
+  }
+  .btn {
+    display: inline-block;
+    padding: 0.75rem 1.8rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1.5px solid var(--accent);
+    transition: all 0.25s;
+    cursor: pointer;
+  }
+  .btn-primary { background: var(--accent); color: var(--white); }
+  .btn-primary:hover { background: transparent; color: var(--accent); }
+  .btn-ghost { background: transparent; color: var(--accent); }
+  .btn-ghost:hover { background: var(--accent); color: var(--white); }
+
+  .hero-right {
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 6rem 4rem 4rem 5rem;
+    position: relative;
+  }
+  .hero-stats {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.8s forwards;
+  }
+  .stat {
+    padding: 2rem;
+    border-top: 1px solid var(--rule);
+    border-left: 1px solid var(--rule);
+  }
+  .stat:nth-child(1), .stat:nth-child(2) { border-top: none; }
+  .stat:nth-child(1), .stat:nth-child(3) { border-left: none; }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .stat-num span { font-size: 1.4rem; color: var(--gold); }
+  .stat-label { font-size: 0.78rem; color: var(--mid); margin-top: 0.4rem; letter-spacing: 0.05em; }
+
+  .hero-quote {
+    margin-top: 3rem;
+    padding: 2rem;
+    border-left: 3px solid var(--gold);
+    background: rgba(184,147,90,0.05);
+    opacity: 0;
+    animation: fadeUp 0.6s 1s forwards;
+  }
+  .hero-quote p { font-style: italic; color: var(--mid); font-size: 0.92rem; }
+
+  /* ── SECTIONS COMMON ── */
+  section { padding: 7rem 4rem; }
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.8rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1.15;
+    margin-bottom: 1rem;
+  }
+  .section-rule {
+    width: 60px; height: 2px;
+    background: var(--gold);
+    margin-bottom: 3rem;
+  }
+
+  /* ── SOBRE ── */
+  #sobre { background: var(--white); border-top: 1px solid var(--rule); }
+  .sobre-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 6rem;
+    align-items: start;
+  }
+  .sobre-text p { color: var(--mid); margin-bottom: 1.2rem; font-size: 0.98rem; }
+  .sobre-text p strong { color: var(--ink); font-weight: 500; }
+  .sobre-credentials { display: flex; flex-direction: column; gap: 0; }
+  .credential {
+    display: flex; gap: 1.5rem; align-items: flex-start;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .credential:first-child { border-top: 1px solid var(--rule); }
+  .cred-year {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--gold);
+    min-width: 70px;
+    padding-top: 0.15rem;
+  }
+  .cred-info strong { display: block; font-size: 0.9rem; font-weight: 500; color: var(--ink); margin-bottom: 0.15rem; }
+  .cred-info span { font-size: 0.82rem; color: var(--mid); }
+
+  /* ── EXPERIÊNCIA ── */
+  #experiencia { border-top: 1px solid var(--rule); }
+  .exp-list { display: flex; flex-direction: column; gap: 0; }
+  .exp-item {
+    display: grid; grid-template-columns: 200px 1fr;
+    gap: 3rem; padding: 3rem 0;
+    border-bottom: 1px solid var(--rule);
+    transition: background 0.2s;
+  }
+  .exp-item:first-child { border-top: 1px solid var(--rule); }
+  .exp-meta { display: flex; flex-direction: column; gap: 0.4rem; }
+  .exp-period {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+  }
+  .exp-org { font-size: 0.82rem; color: var(--mid); }
+  .exp-content h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 0.6rem;
+  }
+  .exp-content p { font-size: 0.92rem; color: var(--mid); margin-bottom: 0.8rem; }
+  .exp-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+  .tag {
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.8rem;
+    border: 1px solid var(--rule);
+    color: var(--mid);
+  }
+
+  /* ── PROJETOS ── */
+  #projetos { background: var(--accent); border-top: none; }
+  #projetos .section-title { color: var(--white); }
+  #projetos .section-label { color: var(--gold); }
+  #projetos .section-rule { background: var(--gold); }
+  .projetos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+  .projeto-card {
+    background: rgba(255,255,255,0.05);
+    padding: 3rem;
+    border: 1px solid rgba(255,255,255,0.08);
+    transition: background 0.3s;
+    cursor: default;
+  }
+  .projeto-card:hover { background: rgba(255,255,255,0.1); }
+  .projeto-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.15em;
+  }
+  .projeto-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+  .projeto-card p { font-size: 0.9rem; color: rgba(255,255,255,0.65); line-height: 1.7; margin-bottom: 1.5rem; }
+  .projeto-metric {
+    display: flex; gap: 2rem; margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255,255,255,0.12);
+  }
+  .metric-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .metric-label { font-size: 0.75rem; color: rgba(255,255,255,0.5); margin-top: 0.3rem; }
+
+  /* ── PRODUÇÃO ── */
+  #producao { background: var(--white); border-top: 1px solid var(--rule); }
+  .producao-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3rem; }
+  .prod-cat h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 2px solid var(--gold);
+  }
+  .prod-list { list-style: none; display: flex; flex-direction: column; gap: 0; }
+  .prod-list li {
+    font-size: 0.87rem;
+    color: var(--mid);
+    padding: 0.8rem 0;
+    border-bottom: 1px solid var(--rule);
+    line-height: 1.5;
+  }
+  .prod-list li strong { color: var(--ink); font-weight: 500; }
+  .prod-list li em { color: var(--gold); font-style: normal; font-size: 0.75rem; }
+
+  /* ── CONTATO ── */
+  #contato {
+    background: var(--ink);
+    border-top: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    padding: 0;
+  }
+  .contato-left {
+    padding: 7rem 5rem 7rem 4rem;
+    border-right: 1px solid rgba(255,255,255,0.08);
+  }
+  .contato-left .section-title { color: var(--white); }
+  .contato-left .section-label { color: var(--gold); }
+  .contato-left .section-rule { background: var(--gold); }
+  .contato-left p { color: rgba(255,255,255,0.6); font-size: 0.95rem; margin-bottom: 3rem; }
+  .contact-list { list-style: none; display: flex; flex-direction: column; gap: 1.5rem; }
+  .contact-list li { display: flex; align-items: center; gap: 1rem; }
+  .contact-icon {
+    width: 36px; height: 36px;
+    border: 1px solid rgba(255,255,255,0.15);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem; color: var(--gold);
+    flex-shrink: 0;
+  }
+  .contact-text { font-size: 0.9rem; color: rgba(255,255,255,0.75); }
+  .contact-text a { color: rgba(255,255,255,0.75); text-decoration: none; }
+  .contact-text a:hover { color: var(--gold); }
+  .contato-right {
+    padding: 7rem 4rem 7rem 5rem;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .avail-badge {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #4ade80;
+    margin-bottom: 2rem;
+  }
+  .avail-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #4ade80;
+    animation: pulse 2s infinite;
+  }
+  .contato-right h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: var(--white);
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+  .contato-right p { color: rgba(255,255,255,0.5); font-size: 0.9rem; margin-bottom: 2.5rem; }
+  .links-grid { display: flex; flex-direction: column; gap: 1rem; }
+  .link-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1rem 1.2rem;
+    border: 1px solid rgba(255,255,255,0.08);
+    text-decoration: none;
+    transition: all 0.2s;
+    color: rgba(255,255,255,0.7);
+    font-size: 0.87rem;
+  }
+  .link-item:hover { border-color: var(--gold); color: var(--gold); }
+  .link-arrow { font-size: 0.8rem; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 2rem 4rem;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  footer p { font-size: 0.75rem; color: rgba(255,255,255,0.3); }
+  footer span { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: rgba(255,255,255,0.2); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 2rem; }
+    .nav-links { gap: 1.5rem; }
+    #hero { grid-template-columns: 1fr; }
+    .hero-left { padding: 4rem 2rem; border-right: none; border-bottom: 1px solid var(--rule); }
+    .hero-right { padding: 3rem 2rem; }
+    section { padding: 5rem 2rem; }
+    .sobre-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
+    .projetos-grid { grid-template-columns: 1fr; }
+    .producao-grid { grid-template-columns: 1fr; }
+    #contato { grid-template-columns: 1fr; }
+    .contato-left { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); padding: 4rem 2rem; }
+    .contato-right { padding: 4rem 2rem; }
+    footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-name">Danillo Bragança</div>
+  <ul class="nav-links">
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#experiencia">Experiência</a></li>
+    <li><a href="#projetos">Projetos</a></li>
+    <li><a href="#producao">Produção</a></li>
+    <li><a href="#contato">Contato</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-left">
+    <p class="hero-tag">Rio de Janeiro, RJ · Disponível para Home Office</p>
+    <h1 class="hero-name">Educação.<br>Tecnologia.<br>Impacto.</h1>
+    <p class="hero-sub">Doutor em Ciência Política, especialista em EaD, design instrucional e arquiteturas pedagógicas baseadas em IA. Mais de 15 anos formando pessoas em contextos de alta complexidade.</p>
+    <div class="hero-cta">
+      <a href="#contato" class="btn btn-primary">Entre em contato</a>
+      <a href="#experiencia" class="btn btn-ghost">Ver trajetória</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">32<span>+</span></div>
+        <div class="stat-label">Programas produzidos para TV Escola / MEC</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">80<span>+</span></div>
+        <div class="stat-label">Professores formados no EduAdapt</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">24<span>+</span></div>
+        <div class="stat-label">Artigos publicados em periódicos Qualis</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">15<span>+</span></div>
+        <div class="stat-label">Anos de docência e pesquisa</div>
+      </div>
+    </div>
+    <div class="hero-quote">
+      <p>"Educação que não alcança quem está longe não cumpre seu propósito."</p>
+    </div>
+  </div>
+</section>
+
+<!-- SOBRE -->
+<section id="sobre">
+  <div class="reveal">
+    <p class="section-label">01 — Perfil</p>
+    <h2 class="section-title">Quem sou</h2>
+    <div class="section-rule"></div>
+  </div>
+  <div class="sobre-grid reveal">
+    <div class="sobre-text">
+      <p>Sou <strong>coordenador pedagógico, pesquisador e especialista em educação digital</strong> com trajetória construída em múltiplos contextos — da sala de aula pública em território vulnerável à produção de conteúdo para plataformas federais e corporativas.</p>
+      <p>Atuei como conteudista para o <strong>MEC (TV Escola)</strong> e para a <strong>Marinha do Brasil</strong>, coordenei projetos sociais de pré-vestibular com aprovação comprovada em universidades públicas, e desenvolvi o <strong>EduAdapt</strong> — uma plataforma própria de IA para personalização pedagógica em escolas de ensino médio.</p>
+      <p>Tenho experiência sólida em <strong>AVA (Moodle, Canvas, Teams)</strong>, design instrucional, formação de tutores, diagnóstico educacional e análise de indicadores de desempenho. Minha formação doutoral confere rigor metodológico à prática pedagógica.</p>
+      <p>Trabalho com foco na <strong>entrega de valor real</strong> — para estudantes, para docentes, para clientes institucionais.</p>
+    </div>
+    <div class="sobre-credentials">
+      <div class="credential">
+        <div class="cred-year">2020</div>
+        <div class="cred-info">
+          <strong>Doutorado em Ciência Política</strong>
+          <span>Universidade Federal Fluminense — Bolsista CAPES</span>
+        </div>
+      </div>
+      <div class="credential">
+        <div class="cred-year">2014</div>
+        <div class="cred-info">
+          <strong>Mestrado em Relações Internacionais</strong>
+          <span>Universidade do Estado do Rio de Janeiro</span>
+        </div>
+      </div>
+      <div class="credential">
+        <div class="cred-year">2025–26</div>
+        <div class="cred-info">
+          <strong>Especialização em Educação Inclusiva (180h)</strong>
+          <span>Neurodiversidade, TDAH, Dislexia, DUA — FAMEESP</span>
+        </div>
+      </div>
+      <div class="credential">
+        <div class="cred-year">2009/2024</div>
+        <div class="cred-info">
+          <strong>Licenciaturas em Filosofia e História</strong>
+          <span>UERJ · UNINTER</span>
+        </div>
+      </div>
+      <div class="credential">
+        <div class="cred-year">Em curso</div>
+        <div class="cred-info">
+          <strong>Pós-graduação em Gestão de Projetos</strong>
+          <span>Metodologias ágeis e governança</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIÊNCIA -->
+<section id="experiencia">
+  <div class="reveal">
+    <p class="section-label">02 — Trajetória</p>
+    <h2 class="section-title">Experiência profissional</h2>
+    <div class="section-rule"></div>
+  </div>
+  <div class="exp-list">
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <div class="exp-period">2022 — atual</div>
+        <div class="exp-org">SEEDEC-RJ</div>
+      </div>
+      <div class="exp-content">
+        <h3>Coordenador Pedagógico — CIEP 241 Nação Mangueirense</h3>
+        <p>Liderança pedagógica de unidade escolar em território de alta complexidade. Formação continuada de docentes para BNCC e Novo Ensino Médio, diagnóstico educacional, análise de instrumentos avaliativos e gestão de conflitos institucionais.</p>
+        <div class="exp-tags">
+          <span class="tag">Formação docente</span>
+          <span class="tag">Diagnóstico educacional</span>
+          <span class="tag">BNCC</span>
+          <span class="tag">Gestão pedagógica</span>
+        </div>
+      </div>
+    </div>
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <div class="exp-period">2011 — 2014</div>
+        <div class="exp-org">MEC / Governo Federal</div>
+      </div>
+      <div class="exp-content">
+        <h3>Conteudista e Produtor — TV Escola</h3>
+        <p>Produção de 32 programas televisivos com planos de aula e planos de curso completos, distribuídos nacionalmente para escolas em zonas remotas. Responsável pelo ciclo completo: roteirização, produção audiovisual e alinhamento com diretrizes curriculares nacionais.</p>
+        <div class="exp-tags">
+          <span class="tag">Produção audiovisual</span>
+          <span class="tag">Design instrucional</span>
+          <span class="tag">EaD</span>
+          <span class="tag">Larga escala</span>
+        </div>
+      </div>
+    </div>
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <div class="exp-period">2012 — 2016</div>
+        <div class="exp-org">Marinha do Brasil</div>
+      </div>
+      <div class="exp-content">
+        <h3>Coordenador de Pesquisa — Escola de Guerra Naval / Geocorrente</h3>
+        <p>Pesquisador e depois coordenador-geral da equipe do Boletim Geocorrente, publicação especializada distribuída pela rede interna da Marinha para oficiais e analistas em todo o Brasil. Produção de material estratégico de alta complexidade.</p>
+        <div class="exp-tags">
+          <span class="tag">Produção técnica</span>
+          <span class="tag">Gestão de equipe</span>
+          <span class="tag">Pesquisa aplicada</span>
+        </div>
+      </div>
+    </div>
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <div class="exp-period">2013 — 2021</div>
+        <div class="exp-org">Estácio · UniAsselvi · LaSalle · Senac</div>
+      </div>
+      <div class="exp-content">
+        <h3>Conteudista EaD — Ensino Superior</h3>
+        <p>Desenvolvimento de disciplinas 100% online para cursos de Direito, Educação e Licenciaturas. Tutoria e mediação em AVA. Produção de videoaulas, roteiros, materiais didáticos e instrumentos avaliativos para graduação e pós-graduação.</p>
+        <div class="exp-tags">
+          <span class="tag">Moodle / Canvas</span>
+          <span class="tag">Videoaula</span>
+          <span class="tag">Tutoria</span>
+          <span class="tag">Avaliação</span>
+        </div>
+      </div>
+    </div>
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <div class="exp-period">2016 — 2026</div>
+        <div class="exp-org">UFF</div>
+      </div>
+      <div class="exp-content">
+        <h3>Professor-Colaborador e Pesquisador — UFF</h3>
+        <p>Docência em Metodologia de Relações Internacionais, orientação de trabalhos acadêmicos e membro de corpo editorial dos periódicos Orbis (LEPEB-UFF) e Boletim Geocorrente.</p>
+        <div class="exp-tags">
+          <span class="tag">Ensino superior</span>
+          <span class="tag">Orientação acadêmica</span>
+          <span class="tag">Pesquisa</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJETOS -->
+<section id="projetos">
+  <div class="reveal">
+    <p class="section-label">03 — Iniciativas</p>
+    <h2 class="section-title">Projetos de impacto</h2>
+    <div class="section-rule"></div>
+  </div>
+  <div class="projetos-grid">
+    <div class="projeto-card reveal">
+      <div class="projeto-num">01 / EduAdapt</div>
+      <h3>IA para adaptação pedagógica em escolas públicas</h3>
+      <p>Plataforma desenvolvida por iniciativa própria que usa IA (OpenAI) para gerar presets pedagógicos personalizados para estudantes com neurodiversidade. Desonera docentes e coordenações na adaptação de materiais, planos de aula e avaliações para alunos com TDAH, dislexia e outras condições.</p>
+      <div class="projeto-metric">
+        <div>
+          <div class="metric-val">80+</div>
+          <div class="metric-label">Professores na fase 1</div>
+        </div>
+        <div>
+          <div class="metric-val">2023</div>
+          <div class="metric-label">Início — em operação</div>
+        </div>
+      </div>
+    </div>
+    <div class="projeto-card reveal">
+      <div class="projeto-num">02 / Parangolé Mangueira</div>
+      <h3>Pré-vestibular social comunitário</h3>
+      <p>Fundado do zero em 2021, o Parangolé é um pré-vestibular gratuito voltado para jovens da comunidade da Mangueira. Sistematização completa de trilhas de aprendizagem, coordenação de equipe multidisciplinar de voluntários e acompanhamento pedagógico individualizado.</p>
+      <div class="projeto-metric">
+        <div>
+          <div class="metric-val">~100</div>
+          <div class="metric-label">Alunos atendidos</div>
+        </div>
+        <div>
+          <div class="metric-val">30%</div>
+          <div class="metric-label">Aprovação em univ. públicas</div>
+        </div>
+      </div>
+    </div>
+    <div class="projeto-card reveal">
+      <div class="projeto-num">03 / PreVest Social UERJ</div>
+      <h3>Pré-vestibular popular na UERJ</h3>
+      <p>Coordenação geral por 4 anos de pré-vestibular social vinculado à UERJ. Construção do projeto do zero: currículo, seleção de professores voluntários, acompanhamento pedagógico e articulação institucional com a universidade.</p>
+      <div class="projeto-metric">
+        <div>
+          <div class="metric-val">4</div>
+          <div class="metric-label">Anos de coordenação</div>
+        </div>
+        <div>
+          <div class="metric-val">2005–09</div>
+          <div class="metric-label">Período</div>
+        </div>
+      </div>
+    </div>
+    <div class="projeto-card reveal">
+      <div class="projeto-num">04 / TV Escola / MEC</div>
+      <h3>Educação pública de larga escala</h3>
+      <p>Produção de conteúdo educacional televisivo para o programa federal TV Escola, com foco em universalizar o acesso a materiais de qualidade em regiões remotas do Brasil. Ciclo completo: roteiro, produção, planos de aula e planos de curso.</p>
+      <div class="projeto-metric">
+        <div>
+          <div class="metric-val">32</div>
+          <div class="metric-label">Programas produzidos</div>
+        </div>
+        <div>
+          <div class="metric-val">Nacional</div>
+          <div class="metric-label">Alcance da distribuição</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUÇÃO -->
+<section id="producao">
+  <div class="reveal">
+    <p class="section-label">04 — Conhecimento</p>
+    <h2 class="section-title">Produção acadêmica</h2>
+    <div class="section-rule"></div>
+  </div>
+  <div class="producao-grid">
+    <div class="prod-cat reveal">
+      <h3>Livros publicados</h3>
+      <ul class="prod-list">
+        <li><strong>Narcotráfico, Soberania e Relações Internacionais no México</strong><br><em>Gramma, 2017 · 156p.</em></li>
+        <li><strong>Problemas Metafísicos</strong><br><em>UNESA, 2019 · 137p.</em></li>
+      </ul>
+    </div>
+    <div class="prod-cat reveal">
+      <h3>Artigos selecionados</h3>
+      <ul class="prod-list">
+        <li>O Governo Lula 3 e as Forças Armadas <em>· Orbis/LEPEB-UFF, 2023</em></li>
+        <li>Lobo sem pele de cordeiro <em>· Conjuntura Internacional (PUC-MG), 2018</em></li>
+        <li>Os diálogos de Benjamin e Agamben sobre poder e violência <em>· Revista Profanações, 2017</em></li>
+        <li>As Três Guerras: Êxitos e Fracassos da Guerra às Drogas <em>· Perspectivas, 2016</em></li>
+        <li>A UNASUL como estratégia de expansão da liderança brasileira <em>· Oikos, 2016</em></li>
+        <li><em>+ 19 artigos em periódicos Qualis</em></li>
+      </ul>
+    </div>
+    <div class="prod-cat reveal">
+      <h3>Presença pública</h3>
+      <ul class="prod-list">
+        <li>Colunista em <strong>Brasil de Fato</strong> e <strong>Carta Maior</strong></li>
+        <li>9 entrevistas em TV e rádio sobre geopolítica e América Latina</li>
+        <li>Membro do corpo editorial: <strong>Orbis/LEPEB-UFF</strong> e <strong>Boletim Geocorrente</strong></li>
+        <li>Orientação de 10+ trabalhos de conclusão de curso na UFF</li>
+        <li>Participação em bancas de mestrado e doutorado (UFF, UFRJ)</li>
+        <li>40+ apresentações em congressos nacionais e internacionais</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CONTATO -->
+<section id="contato">
+  <div class="contato-left">
+    <p class="section-label">05 — Contato</p>
+    <h2 class="section-title">Vamos conversar</h2>
+    <div class="section-rule"></div>
+    <p>Disponível para projetos de educação corporativa, consultoria pedagógica, produção de conteúdo EaD e parcerias em tecnologia educacional.</p>
+    <ul class="contact-list">
+      <li>
+        <div class="contact-icon">✉</div>
+        <div class="contact-text"><a href="mailto:danillo.braganca@yahoo.com.br">danillo.braganca@yahoo.com.br</a></div>
+      </li>
+      <li>
+        <div class="contact-icon">✆</div>
+        <div class="contact-text">(21) 97095-9733</div>
+      </li>
+      <li>
+        <div class="contact-icon">⌖</div>
+        <div class="contact-text">Rio de Janeiro, RJ — Home Office</div>
+      </li>
+    </ul>
+  </div>
+  <div class="contato-right">
+    <div class="avail-badge"><span class="avail-dot"></span>Disponível para oportunidades</div>
+    <h3>Links e perfis profissionais</h3>
+    <p>Acesse meu currículo completo e produção acadêmica nos links abaixo.</p>
+    <div class="links-grid">
+      <a href="https://linkedin.com/in/danillobraganca" target="_blank" class="link-item">
+        LinkedIn <span class="link-arrow">↗</span>
+      </a>
+      <a href="http://lattes.cnpq.br/9670363481698811" target="_blank" class="link-item">
+        Currículo Lattes <span class="link-arrow">↗</span>
+      </a>
+      <a href="mailto:danillo.braganca@yahoo.com.br" class="link-item">
+        Enviar e-mail <span class="link-arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 Danillo Avellar Bragança — Rio de Janeiro</p>
+  <span>Educação · Tecnologia · Pesquisa</span>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
